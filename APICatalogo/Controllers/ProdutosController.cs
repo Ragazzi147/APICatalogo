@@ -39,8 +39,7 @@ namespace APICatalogo.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(Produto produto)
-        {
+        public ActionResult Post(Produto produto) {
 
             if (produto is null)
                 return BadRequest();
