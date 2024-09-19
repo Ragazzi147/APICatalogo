@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace APICatalogo.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]")]// /produtos
     [ApiController]
     public class ProdutosController : ControllerBase
     {
@@ -16,7 +16,19 @@ namespace APICatalogo.Controllers
         {
             _context = context;
         }
+        // /produtos/primeiro
+        [HttpGet("primeiro")]
+        public ActionResult<Produto> GetPrimeiro()
+        {
+            var produto = _context.Produtos.FirstOrDefault();
+            if (produto is null)
+            {
+                return NotFound("Produtos não encontrados...");
+            }
+            return produto;
+        }
 
+        // /produtos
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get()
         {
@@ -28,6 +40,7 @@ namespace APICatalogo.Controllers
             return produtos;
         }
 
+        // /produtos/id
         [HttpGet("{id:int}", Name ="ObterProduto")]
         public ActionResult<Produto> Get(int id)
         {
@@ -38,7 +51,7 @@ namespace APICatalogo.Controllers
             }
             return produto;
         }
-
+        // /produtos
         [HttpPost]
         public ActionResult Post(Produto produto)
         {
@@ -52,6 +65,7 @@ namespace APICatalogo.Controllers
             return new CreatedAtRouteResult("ObterProduto", new { id = produto.ProdutoId}, produto);
         }
 
+        // /produtos/id
         [HttpPut("{id:int}")]
         public ActionResult Put(int id, Produto produto) 
         { 
@@ -67,7 +81,7 @@ namespace APICatalogo.Controllers
 
             return Ok(produto);
         }
-
+        // /produtos/id
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
