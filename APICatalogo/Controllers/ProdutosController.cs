@@ -18,6 +18,8 @@ namespace APICatalogo.Controllers
         }
         // /produtos/primeiro
         [HttpGet("primeiro")]
+        [HttpGet("teste")]
+        [HttpGet("/primeiro")]
         public ActionResult<Produto> GetPrimeiro()
         {
             var produto = _context.Produtos.FirstOrDefault();
@@ -41,9 +43,11 @@ namespace APICatalogo.Controllers
         }
 
         // /produtos/id
-        [HttpGet("{id:int}", Name ="ObterProduto")]
-        public ActionResult<Produto> Get(int id)
+        [HttpGet("{id}/{nome=Caderno}", Name = "ObterProduto")]
+        public ActionResult<Produto> Get(int id, string nome)
         {
+            var parametro = nome;
+
             var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
             if (produto is null) 
             {
