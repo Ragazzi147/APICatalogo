@@ -3,10 +3,12 @@ using APICatalogo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace APICatalogo.Controllers
 {
-    [Route("[controller]")]// /produtos
+    [Route("api/[controller]")]// /produtos
+
     [ApiController]
     public class ProdutosController : ControllerBase
     {
@@ -17,21 +19,24 @@ namespace APICatalogo.Controllers
             _context = context;
         }
         // /produtos/primeiro
-        [HttpGet("primeiro")]
+      /*[HttpGet("primeiro")]
         [HttpGet("teste")]
-        [HttpGet("/primeiro")]
-        public ActionResult<Produto> GetPrimeiro()
+        [HttpGet("/primeiro")]*/
+        [HttpGet("{valor:alpha:length(5)}")]
+        public ActionResult<Produto> Get2(string valor)
         {
-            var produto = _context.Produtos.FirstOrDefault();
-            if (produto is null)
-            {
-                return NotFound("Produtos não encontrados...");
-            }
-            return produto;
+
+            var teste = valor;
+            return _context.Produtos.FirstOrDefault();
+            /* if (produto is null)
+             {
+                 return NotFound("Produtos não encontrados...");
+             }
+             return produto;*/
         }
 
-        // /produtos
-        [HttpGet]
+    // /produtos
+    [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get()
         {
             var produtos = _context.Produtos.ToList();
@@ -43,17 +48,25 @@ namespace APICatalogo.Controllers
         }
 
         // /produtos/id
-        [HttpGet("{id}/{nome=Caderno}", Name = "ObterProduto")]
-        public ActionResult<Produto> Get(int id, string nome)
+        [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
+        public ActionResult<Produto> Get(int id)
         {
-            var parametro = nome;
-
-            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
-            if (produto is null) 
+            try
             {
-                return NotFound("Produto não encontrado...");
+                var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+                if (produto == null)
+                {
+                    return NotFound("Produto não encontrado..."); 
+                }
+                return Ok(produto);
             }
-            return produto;
+            catch (Exception ) 
+            {
+                
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Erro ao processar a solicitação. Por favor, tente novamente mais tarde.");
+            }
+
         }
         // /produtos
         [HttpPost]
