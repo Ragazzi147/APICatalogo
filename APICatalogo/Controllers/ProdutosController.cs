@@ -2,6 +2,7 @@
 using APICatalogo.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -19,9 +20,9 @@ namespace APICatalogo.Controllers
             _context = context;
         }
         // /produtos/primeiro
-      /*[HttpGet("primeiro")]
-        [HttpGet("teste")]
-        [HttpGet("/primeiro")]*/
+        /*[HttpGet("primeiro")]
+          [HttpGet("teste")]
+          [HttpGet("/primeiro")]*/
         [HttpGet("{valor:alpha:length(5)}")]
         public ActionResult<Produto> Get(string valor)
         {
@@ -50,15 +51,16 @@ namespace APICatalogo.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Produto>>> Get2()
         {
-           return await _context.Produtos.AsNoTracking().ToListAsync();
-        }  
-        
+            return await _context.Produtos.AsNoTracking().ToListAsync();
+        }
+
         // /produtos/id
         [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
-        public async Task<ActionResult<Produto>> Get(int id)
+        public async Task<ActionResult<Produto>> Get([FromQuery] int id)
         {
             try
             {
+                
                 var produto = await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.ProdutoId == id);
                 if (produto == null)
                 {
