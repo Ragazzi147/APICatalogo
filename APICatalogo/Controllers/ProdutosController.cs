@@ -48,7 +48,7 @@ namespace APICatalogo.Controllers
         }
 
         // /produtos
-        [HttpGet]
+        [HttpGet("get2")]
         public async Task<ActionResult<IEnumerable<Produto>>> Get2()
         {
             return await _context.Produtos.AsNoTracking().ToListAsync();
