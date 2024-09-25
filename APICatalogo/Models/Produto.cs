@@ -10,15 +10,16 @@ public class Produto
     [Key]
     public int ProdutoId { get; set; }
     
-    [Required]
-    [StringLength(800)]
+    [Required(ErrorMessage ="O Nome é obrigatório")]
+    [StringLength(20, ErrorMessage = "O Nome deve ter no máximo 20 caracteres")]
     public string? Nome { get; set; }
     
     [Required]
-    [StringLength(300)]
+    [StringLength(20,ErrorMessage = "O Nome deve ter no máximo 20 caracteres")]
     public string? Descricao { get; set; }
     
     [Required]
+    [Range(1, 10000, ErrorMessage = "O preço deve estar entre {1} e {2}")]
     [Column(TypeName ="decimal(10,2)")]
     public decimal Preco { get; set; }
 

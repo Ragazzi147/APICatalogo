@@ -78,11 +78,13 @@ namespace APICatalogo.Controllers
         }
         // /produtos
         [HttpPost]
-        public ActionResult Post(Produto produto)
+        public ActionResult Post([FromBody]Produto produto)
         {
-
-            if (produto is null)
-                return BadRequest();
+           /* if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);  
+            }*/
+            
 
             _context.Produtos.Add(produto);
             _context.SaveChanges();
