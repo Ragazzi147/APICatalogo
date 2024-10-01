@@ -59,23 +59,25 @@ namespace APICatalogo.Controllers
         [HttpGet("{id:int}", Name = "ObterCategoria")]
         public ActionResult<Categoria> Get(int id)
         {
-            try
+            //throw new Exception("Exceção ao retornar a categoria pelo Id");
+            /*string[] teste = null;
+            if (teste.Length > 0)
             {
-                var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
 
-                if (categoria == null)
+ 
+            }*/
+            
+            var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
+
+            if (categoria == null)
                 {
                     return NotFound($"Categoria com id ={id} não encontrada...");
                 }
-                return Ok(categoria);
-            }
-            catch (Exception)
-            {
+            return Ok(categoria);
+            
+          
 
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                     "Ocorreu um problema ao tratar a sua solicitação.");
-
-            }
+            
 
         }
         [HttpPost]

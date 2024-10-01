@@ -24,7 +24,7 @@ namespace APICatalogo.Controllers
           [HttpGet("teste")]
           [HttpGet("/primeiro")]*/
         [HttpGet("{valor:alpha:length(5)}")]
-        public ActionResult<Produto> Get(string valor)
+        public ActionResult<Produto> Get1(string valor)
         {
 
             var teste = valor;
@@ -37,9 +37,9 @@ namespace APICatalogo.Controllers
         }
 
         [HttpGet]
-        public ActionResult<Produto> Get1()
+        public ActionResult<IEnumerable<Produto>> Get()
         {
-            var produto = _context.Produtos.FirstOrDefault();
+            var produto = _context.Produtos.ToList();
             if (produto == null)
             {
                 return NotFound("Produtos não encontrados...");
@@ -56,7 +56,7 @@ namespace APICatalogo.Controllers
 
         // /produtos/id
         [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
-        public async Task<ActionResult<Produto>> Get([FromQuery] int id)
+        public async Task<ActionResult<Produto>> Get(int id)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace APICatalogo.Controllers
         }
         // /produtos
         [HttpPost]
-        public ActionResult Post([FromBody]Produto produto)
+        public ActionResult Post(Produto produto)
         {
            /* if (!ModelState.IsValid)
             {
