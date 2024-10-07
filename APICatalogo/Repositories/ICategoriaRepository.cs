@@ -5,8 +5,11 @@ namespace APICatalogo.Repositories
 {
     public interface ICategoriaRepository
     {
+        object Categorias { get; set; }
+
         IEnumerable<Categoria> GetCategorias();
-        Categoria GetCategora(int id);
+        IEnumerable<Categoria> GetCategoriasProdutos();
+        Categoria GetCategoria(int id);
         Categoria Create(Categoria categoria);
         Categoria Update(Categoria categoria);  
         Categoria Delete(int id);   

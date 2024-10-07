@@ -8,6 +8,8 @@ namespace APICatalogo.Repositories
     {
         private readonly AppDbContext _context;
 
+        public object Categorias { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public CategoriaRepository(AppDbContext context)
         {
             _context = context;
@@ -18,7 +20,11 @@ namespace APICatalogo.Repositories
             return _context.Categorias.ToList();
             
         }
-        public Categoria GetCategora(int id)
+        public IEnumerable<Categoria> GetCategoriasProdutos()
+        {
+            return _context.Categorias.Include(p => p.Produtos).ToList();
+        }
+        public Categoria GetCategoria(int id)
         {
             return _context.Categorias.FirstOrDefault(c=> c.CategoriaId == id);
         }
@@ -53,9 +59,9 @@ namespace APICatalogo.Repositories
             }
 
             _context.Categorias.Remove(categoria);
-            _context.SaveChanges(); 
-            
+            _context.SaveChanges();
             return categoria;
+
         }
 
     }
