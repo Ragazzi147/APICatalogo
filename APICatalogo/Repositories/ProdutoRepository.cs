@@ -55,9 +55,9 @@ namespace APICatalogo.Repositories
 
         public bool Delete(int id)
         {
-            var produto = _context.Produtos.Find();
+            var produto = _context.Produtos.Find(id);
 
-            if (produto == null) 
+            if (produto != null) 
             {
                 _context.Produtos.Remove(produto);
                 _context.SaveChanges();
